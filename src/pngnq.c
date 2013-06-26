@@ -439,7 +439,7 @@ pngnq__save(register PngNQObject *self, PyObject *args)
         }
 
         if (rwpng_info.rgba_data) {
-            PyMem_Free(rwpng_info.rgba_data);
+            free(rwpng_info.rgba_data);
         }
 
         fclose(fp);
@@ -479,15 +479,15 @@ pngnq__save(register PngNQObject *self, PyObject *args)
 
     if (rwpng_info.indexed_data == NULL || (rwpng_info.interlaced && row_pointers == NULL)) {
         if (rwpng_info.row_pointers) {
-            PyMem_Free(rwpng_info.row_pointers);
+            free(rwpng_info.row_pointers);
         }
 
         if (rwpng_info.rgba_data) {
-            PyMem_Free(rwpng_info.rgba_data);
+            free(rwpng_info.rgba_data);
         }
 
         if (rwpng_info.indexed_data) {
-            PyMem_Free(rwpng_info.indexed_data);
+            free(rwpng_info.indexed_data);
         }
 
         fclose(fp);
@@ -499,19 +499,19 @@ pngnq__save(register PngNQObject *self, PyObject *args)
     /* Write headers and such. */
     if (rwpng_write_image_init(fp, &rwpng_info) != 0) {
         if (rwpng_info.rgba_data) {
-            PyMem_Free(rwpng_info.rgba_data);
+            free(rwpng_info.rgba_data);
         }
 
         if (rwpng_info.row_pointers) {
-            PyMem_Free(rwpng_info.row_pointers);
+            free(rwpng_info.row_pointers);
         }
 
         if (rwpng_info.indexed_data) {
-            PyMem_Free(rwpng_info.indexed_data);
+            free(rwpng_info.indexed_data);
         }
 
         if (row_pointers) {
-            PyMem_Free(row_pointers);
+            free(row_pointers);
         }
 
         fclose(fp);
@@ -531,12 +531,12 @@ pngnq__save(register PngNQObject *self, PyObject *args)
 
     /* now we're done with the INPUT data and row_pointers, so free 'em */
     if (rwpng_info.rgba_data) {
-        PyMem_Free(rwpng_info.rgba_data);
+        free(rwpng_info.rgba_data);
         rwpng_info.rgba_data = NULL;
     }
 
     if (rwpng_info.row_pointers) {
-        PyMem_Free(rwpng_info.row_pointers);
+        free(rwpng_info.row_pointers);
         rwpng_info.row_pointers = NULL;
     }
 
@@ -553,12 +553,12 @@ pngnq__save(register PngNQObject *self, PyObject *args)
 
     /* now we're done with the OUTPUT data and row_pointers, too */
     if (rwpng_info.indexed_data) {
-        PyMem_Free(rwpng_info.indexed_data);
+        free(rwpng_info.indexed_data);
         rwpng_info.indexed_data = NULL;
     }
 
     if (row_pointers) {
-        PyMem_Free(row_pointers);
+        free(row_pointers);
         row_pointers = rwpng_info.row_pointers = NULL;
     }
 
