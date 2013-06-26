@@ -611,9 +611,15 @@ pngnq_setattr(PngNQObject *self, char *name, PyObject *val)
     if (val == NULL) {
         int rv = PyDict_DelItemString(self->config, name);
         if (rv < 0){
-            PyErr_SetString(PyExc_AttributeError, "delete non-existing Flp attribute");
+            PyErr_SetString(PyExc_AttributeError, "delete non-existing attribute");
         }
         return rv;
+    }
+
+    if(strcmp("colour_space", name) == 0 && PyInt_AsLong(val) != RGB
+        && PyInt_AsLong(val) != YUV){
+        PyErr_Format(PyExc_AttributeError, "colour_space must be %i or %i.", RGB, YUV);
+        return -1;
     }
 
     return PyDict_SetItemString(self->config, name, val);
@@ -685,26 +691,27 @@ pngnq_new(PyObject* self, PyObject* args)
     PyDict_SetItemString(dp->config, "input_palette_name", Py_BuildValue("s", ""));
     PyDict_SetItemString(dp->config, "n_colours", PyInt_FromLong(256));
     PyDict_SetItemString(dp->config, "use_floyd", PyBool_FromLong(0));
-    PyDict_SetItemString(dp->config, "sample_factor", PyFloat_FromDouble(1));
+    PyDict_SetItemString(dp->config, "sample_factor", PyFloat_FromDouble(10));
     PyDict_SetItemString(dp->config, "colour_space", PyInt_FromLong(RGB));
     PyDict_SetItemString(dp->config, "force_gamma", PyFloat_FromDouble(1.0));
     PyDict_SetItemString(dp->config, "write_gamma", PyFloat_FromDouble(0));
     PyDict_SetItemString(dp->config, "strict_pal_rgba", PyBool_FromLong(0));
 
-    PyDict_SetItemString(dp->config, "unisolate", PyFloat_FromDouble(15.0));
-    PyDict_SetItemString(dp->config, "exclusion_threshold", PyFloat_FromDouble(3.125));
-    PyDict_SetItemString(dp->config, "r_sens", PyFloat_FromDouble(0.5));
+    PyDict_SetItemString(dp->config, "unisolate", PyFloat_FromDouble(0));
+    PyDict_SetItemString(dp->config, "exclusion_threshold", PyFloat_FromDouble(1.0));
+
+    PyDict_SetItemString(dp->config, "r_sens", PyFloat_FromDouble(1.0));
     PyDict_SetItemString(dp->config, "g_sens", PyFloat_FromDouble(1.0));
     PyDict_SetItemString(dp->config, "b_sens", PyFloat_FromDouble(1.0));
-    PyDict_SetItemString(dp->config, "a_sens", PyFloat_FromDouble(0.5));
+    PyDict_SetItemString(dp->config, "a_sens", PyFloat_FromDouble(1.0));
 
-    PyDict_SetItemString(dp->config, "remap_r_sens", PyFloat_FromDouble(0.75));
+    PyDict_SetItemString(dp->config, "remap_r_sens", PyFloat_FromDouble(1.0));
     PyDict_SetItemString(dp->config, "remap_g_sens", PyFloat_FromDouble(1.0));
     PyDict_SetItemString(dp->config, "remap_b_sens", PyFloat_FromDouble(1.0));
-    PyDict_SetItemString(dp->config, "remap_a_sens", PyFloat_FromDouble(0.75));
+    PyDict_SetItemString(dp->config, "remap_a_sens", PyFloat_FromDouble(1.0));
 
     PyDict_SetItemString(dp->config, "alpha_class_correction", PyFloat_FromDouble(0.0));
-    PyDict_SetItemString(dp->config, "force_alpha_class_correctness", PyFloat_FromDouble(1));
+    PyDict_SetItemString(dp->config, "force_alpha_class_correctness", PyFloat_FromDouble(0));
     PyDict_SetItemString(dp->config, "use_alpha_importance_heuristic", PyFloat_FromDouble(0));
 
     if (!PyArg_ParseTuple(args, "s", &dp->filename)){

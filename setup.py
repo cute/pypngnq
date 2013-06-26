@@ -12,7 +12,7 @@ sources = ['src/pngnq.c',
           'src/rwpng.c']
 
 setup(name = "pypngnq",
-      version = "0.1.1",
+      version = "0.1.2",
       author = "Guangming Li",
       author_email = "leeful@gmail.com",
       license = "Apache License",
