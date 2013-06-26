@@ -1,17 +1,32 @@
-PNGNQ - PNG NEUQUANT
-===============================================
+### What is PyPngnq?
 
-# install
+PyPngnq is a tool for quantizing PNG images in RGBA format
 
-    pip install pypngnq
+### Installation
 
-#use
+You need to install libpng first, To install PyPngnq:
 
+Debian:
+
+    apt-get install libpng-dev -y
+
+FreeBSD:
+
+    cd /usr/ports/graphics/png
+    make install clean
+
+To install PyPngnq:
+
+    pip install PyPngnq
+
+### How to use it?
+
+Following is a simple example:
+
+    # -*- coding: utf8 -*-
     from pypngnq import PngNQ
-    n = PngNQ('/tmp/test.png')
-    n.use_floyd = False
-    n.exclusion_threshold = 0.3
-    n.save('/tmp/test_pypngnq.png')
-    n.load('/tmp/test_pypngnq.png')
-    n.save('/tmp/test_pypngnq2.png')
-    n.close()
+    nq = PngNQ('/tmp/test.png')
+    #print nq.config
+    nq.use_floyd = False
+    nq.save('/tmp/test_pypngnq.png')
+    nq.close()
