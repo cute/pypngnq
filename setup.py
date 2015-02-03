@@ -6,9 +6,15 @@ libraries = ['png', 'z', ]
 runtime_library_dirs = []
 extra_objects = []
 define_macros = []
-sources = ['src/pngnq.c',
+sources = ['src/errors.h',
+          'src/pngnq.c',
+          'src/colorspace.h',
           'src/colorspace.c',
+          'src/neuquant32.h',
           'src/neuquant32.c',
+          'src/nqcvector.h',
+          'src/pngnqhelp.h',
+          'src/rwpng.h',
           'src/rwpng.c']
 
 setup(name = "pypngnq",
